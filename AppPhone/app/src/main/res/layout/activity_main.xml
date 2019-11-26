@@ -108,6 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Tìm số điện thoại"
+        android:onClick="tim_theo_SDT"
         app:layout_constraintEnd_toEndOf="@+id/btnHuy"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/btnThemMoi"
@@ -115,6 +116,7 @@
 
     <Button
         android:id="@+id/btnXoa"
+        android:onClick="xoa_danhBa"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

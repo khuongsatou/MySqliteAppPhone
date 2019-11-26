@@ -40,7 +40,30 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Toast.makeText(getApplicationContext(),"Bạn Đã Thêm Thất bại",Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void tim_theo_SDT(View view) {
 
 
+            entry = heper.timTheoSDT(edtSoDienThoai.getText().toString());
+
+            boolean isExist = (entry != null);
+            if (isExist){
+                Toast.makeText(getApplicationContext(),"Tìm thấy số điện thoại: ",Toast.LENGTH_LONG).show();
+                edtTen.setText(entry.getTen());
+            }else{
+                Toast.makeText(getApplicationContext(),"Không tìm thấy số điện thoại",Toast.LENGTH_LONG).show();
+            }
+
+    }
+
+    public void xoa_danhBa(View view) {
+        int count = heper.xoaDanhBa(entry);
+
+        if (count > 0){
+            Toast.makeText(getApplicationContext(),"Đã xóa số điện thoại: ",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getApplicationContext()," số điện thoại chưa được xóa",Toast.LENGTH_LONG).show();
+        }
     }
 }
