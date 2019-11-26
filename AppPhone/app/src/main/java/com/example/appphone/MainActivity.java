@@ -2,6 +2,7 @@ package com.example.appphone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,8 +10,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private EditText edtTen,edtSoDienThoai;
-    DanhBaDBSqlHeper heper;
-    private DanhBaEntry entry;
+    private DanhBaEntry entry = new DanhBaEntry(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         edtTen=  findViewById(R.id.edtTen);
         edtSoDienThoai= findViewById(R.id.edtSoDienThoai);
-        heper = new DanhBaDBSqlHeper(this);
+
     }
 
     public void clearForm(View view) {
@@ -31,10 +31,9 @@ public class MainActivity extends AppCompatActivity {
     public void Them(View view) {
         String ten = edtTen.getText().toString().trim();
         String sdt = edtSoDienThoai.getText().toString().trim();
-        DanhBaEntry entry = new DanhBaEntry();
         entry.setTen(ten);
         entry.setSdt(sdt);
-        long id = heper.themDanhBa(entry);
+        long id = entry.themDanhBa(entry);
         if (id > 0){
             Toast.makeText(getApplicationContext(),"Bạn Đã Thêm Thành công và ID: "+id,Toast.LENGTH_LONG).show();
         }else{
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public void tim_theo_SDT(View view) {
 
 
-            entry = heper.timTheoSDT(edtSoDienThoai.getText().toString());
+            entry = entry.timTheoSDT(edtSoDienThoai.getText().toString());
 
             boolean isExist = (entry != null);
             if (isExist){
@@ -58,12 +57,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void xoa_danhBa(View view) {
-        int count = heper.xoaDanhBa(entry);
+        int count = entry.xoaDanhBa(entry);
 
         if (count > 0){
             Toast.makeText(getApplicationContext(),"Đã xóa số điện thoại: ",Toast.LENGTH_LONG).show();
         }else{
             Toast.makeText(getApplicationContext()," số điện thoại chưa được xóa",Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void DanhBa(View view) {
+        startActivity(new Intent(this,DanhBaActivity.class));
     }
 }
