@@ -115,6 +115,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnThemMoi" />
 
     <Button
+        android:enabled="false"
         android:id="@+id/btnXoa"
         android:onClick="xoa_danhBa"
         android:layout_width="0dp"
@@ -129,6 +130,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnTimSoDienThoai" />
 
     <Button
+        android:enabled="false"
         android:id="@+id/btnCapNhat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -136,12 +138,14 @@
         android:layout_marginLeft="4dp"
         android:layout_marginTop="16dp"
         android:text="Cập Nhật"
+        android:onClick="CapNhat"
         app:layout_constraintEnd_toEndOf="@+id/btnTimSoDienThoai"
         app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/btnTimSoDienThoai" />
 
     <Button
+
         android:id="@+id/btnDanhBa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

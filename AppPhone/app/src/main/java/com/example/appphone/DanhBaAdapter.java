@@ -32,8 +32,8 @@ public class DanhBaAdapter extends RecyclerView.Adapter<DanhBaAdapter.DanhBaHold
     @Override
     public void onBindViewHolder(@NonNull DanhBaAdapter.DanhBaHolder holder, int position) {
         DanhBaEntry db = danhBaEntrys.get(position);
-        holder.tvTen.setText(db.getTen());
-        holder.tvSDT.setText(db.getSdt());
+        holder.tvTen.setText(db.getTen()+"");
+        holder.tvSDT.setText(db.getSdt()+"");
     }
 
     @Override

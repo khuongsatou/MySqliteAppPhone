@@ -21,7 +21,11 @@ public class DanhBaEntry {
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS "+TABLE_NAME;
 
 
-
+    private long id;
+    private String ten;
+    private String sdt;
+    private DanhBaDBSqlHeper helper;
+    private Context context;
 
 
     public long getId() {
@@ -49,10 +53,11 @@ public class DanhBaEntry {
     }
 
     public DanhBaEntry(Context context) {
+        this.context = context;
         this.helper = new DanhBaDBSqlHeper(context);
         this.id  =0;
-        this.ten ="Unknown";
-        this.sdt ="0306171362";
+        this.ten ="";
+        this.sdt ="";
     }
 
     public DanhBaEntry(Context context, long id, String ten, String sdt) {
@@ -63,23 +68,28 @@ public class DanhBaEntry {
         this.sdt = sdt;
     }
 
-    private long id;
-    private String ten;
-    private String sdt;
-    private DanhBaDBSqlHeper helper;
-    private Context context;
+
 
 
 
     public long themDanhBa(DanhBaEntry danhBaEntry){
         SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        //values.put(COLUMN_ID,danhBaEntry.getId());
+        values.put(COLUMN_TEN,danhBaEntry.getTen());
+        values.put(COLUMN_SDT,danhBaEntry.getSdt());
+        long insertedID = sqLiteDatabase.insert(TABLE_NAME,null,values);
+        return insertedID;
+
+    }
+
+    public long capNhatDanhBa(DanhBaEntry danhBaEntry){
+        SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
         values.put(COLUMN_TEN,danhBaEntry.getTen());
         values.put(COLUMN_SDT,danhBaEntry.getSdt());
 
-        long insertedID = sqLiteDatabase.insert(TABLE_NAME,null,values);
-        return insertedID;
+        long capNhated = sqLiteDatabase.update(TABLE_NAME,values,COLUMN_SDT +" = ?",new String[]{danhBaEntry.getId()+""});
+        return capNhated;
 
     }
 
@@ -87,7 +97,6 @@ public class DanhBaEntry {
     {
         SQLiteDatabase db = helper.getReadableDatabase();
         String[] projection ={
-
                 COLUMN_ID,
                 COLUMN_TEN,
                 COLUMN_SDT
@@ -99,27 +108,28 @@ public class DanhBaEntry {
         Cursor cursor = db.query(TABLE_NAME, projection, selcetion, selectionArg,null,null, sortOder);
 
         DanhBaEntry obj = null;
-        while (cursor.moveToNext())
+        if (cursor.moveToNext())
         {
-            int index =  cursor.getColumnIndexOrThrow(COLUMN_TEN);
+            int index =  cursor.getColumnIndexOrThrow(COLUMN_ID);
             long id = cursor.getLong(index);
             String ten = cursor.getString(index);
             String so_dien_thoai = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SDT));
-
-            obj = new DanhBaEntry(context,id,ten,so_dien_thoai);
-
+            obj = new DanhBaEntry(context);
+            obj.setId(id);
+            obj.setTen(ten);
+            obj.setSdt(so_dien_thoai);
         }
         cursor.close();
         return obj;
     }
 
-    public int xoaDanhBa(DanhBaEntry obj)
+    public int xoaDanhBa(String sdt)
     {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         String selcetion = COLUMN_SDT +"= ?";
 
-        String[] selectionArg = {obj.getSdt()};
+        String[] selectionArg = {sdt};
 
         int deleterow = db.delete(TABLE_NAME, selcetion, selectionArg);
 
